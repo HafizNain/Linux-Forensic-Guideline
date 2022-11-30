@@ -20,3 +20,4 @@ Things left to do:
 1) Every function except for OS Information and Process Execution
 2) Creating a folder for each class of artifacts
 3) Finding necessary artfiacts for network
+4) Creating nested function for error handling in OS information
