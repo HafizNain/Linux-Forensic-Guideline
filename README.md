@@ -15,11 +15,8 @@ List of Artifacts:
 11) Mozilla Browser Artifacts Path - (home.mozilla)
 12) Web Folder (var/www/html)
 
-Problem to be solved:
-
-1) Mount point wont change even after executed
-
 Things left to do:
 
-1) Error Handling for multiple query such as OS Information
-2) Every function except for Process Execution
+1) Every function except for OS Information and Process Execution
+2) Creating a folder for each class of artifacts
+3) Finding necessary artfiacts for network
