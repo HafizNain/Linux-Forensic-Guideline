@@ -47,7 +47,7 @@ These are some of the artifacts that can be extracted instantly!
         case "8":
             return 0
         case "9":
-            return 0
+            logs()
         case "10":
             return 0
         case "11":
@@ -329,6 +329,87 @@ def recentlyUsed():
 
     print("\nFile Recently Used Application extracted at: " + currentWorkingDirectory)
 
+    return
+#####################################################################
+# Important Logs
+#####################################################################
+
+def logs():
+     
+    varDirectory = "var"
+    logDirectory = "log"
+    authToSearch = "auth.log"
+    sysToSearch = "syslog"
+     
+    # auth.log
+
+    for relPath,dirs,files in os.walk(rootDirectory):
+        if(varDirectory in dirs):
+            firstDirectory = os.path.join(rootDirectory,relPath,varDirectory)
+            break
+
+    for relPath,dirs,files in os.walk(firstDirectory):
+        if(logDirectory in dirs):
+            targetDirectory = os.path.join(firstDirectory,relPath,logDirectory)
+            break
+    
+    for relPath,dirs,files in os.walk(targetDirectory):
+        if(authToSearch in files):
+            targetPath = os.path.join(targetDirectory,relPath,authToSearch)
+            break
+        else:
+            targetPath = False
+    
+    bool(targetPath)
+    if targetPath is False:
+        with open("authLog.txt", "w") as output:
+            output.write("Extracted from mount point: " + rootDirectory + "\n")
+            output.write("File not found! Try search manually at: /var/log")
+        print("\nFile not found! Try search manually at: /var/log")
+        print("\nFile Important Logs extracted at: " + currentWorkingDirectory)
+        return
+    
+    with open(targetPath, "r") as input:
+        with open("authLog.txt", "w") as output:
+            output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+            for line in input:
+                output.write(line)
+    
+    # syslog
+
+    for relPath,dirs,files in os.walk(rootDirectory):
+        if(varDirectory in dirs):
+            firstDirectory = os.path.join(rootDirectory,relPath,varDirectory)
+            break
+
+    for relPath,dirs,files in os.walk(firstDirectory):
+        if(logDirectory in dirs):
+            targetDirectory = os.path.join(firstDirectory,relPath,logDirectory)
+            break
+    
+    for relPath,dirs,files in os.walk(targetDirectory):
+        if(sysToSearch in files):
+            targetPath = os.path.join(targetDirectory,relPath,sysToSearch)
+            break
+        else:
+            targetPath = False
+    
+    bool(targetPath)
+    if targetPath is False:
+        with open("syslog.txt", "w") as output:
+            output.write("Extracted from mount point: " + rootDirectory + "\n")
+            output.write("File not found! Try search manually at: /var/log")
+        print("\nFile not found! Try search manually at: /var/log")
+        print("\nFile Important Logs extracted at: " + currentWorkingDirectory)
+        return
+    
+    with open(targetPath, "r", errors="ignore") as input:
+        with open("sys.txt", "w") as output:
+            output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+            for line in input:
+                output.write(line)
+
+    print("\nFile Important Logs extracted at: " + currentWorkingDirectory)
     return
 
 #####################################################################
