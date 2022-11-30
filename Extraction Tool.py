@@ -76,6 +76,7 @@ def getHistory():
     for relPath,dirs,files in os.walk(targetDirectory):
         if(fileToSearch in files):
             targetPath = os.path.join(targetDirectory,relPath,fileToSearch)
+            break
         else:
             targetPath = False
     
@@ -84,16 +85,17 @@ def getHistory():
         with open("Bash History.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n")
             output.write("File not found! Try search manually at: /home/user/._bashhistory")
-        print("\nFile not found! Please do manual search!")
+        print("\nFile not found! Try search manually at: /home/user/._bashhistory")
+        print("\nFile Process Execution extracted at: " + currentWorkingDirectory)
         return
-
+    
     with open(targetPath, "r") as input:
         with open("Bash History.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n\n")
             for line in input:
                 output.write(line)
 
-    print("\nFile ._bashhistory extracted at: " + currentWorkingDirectory)
+    print("\nFile Process Execution extracted at: " + currentWorkingDirectory)
 
     return
 
@@ -105,7 +107,12 @@ def getInfo():
 
     usrDirectory = "usr"
     libDirectory = "lib"
-    fileToSearch = "os-release"
+    etcDirectory = "etc"
+    osToSearch = "os-release"
+    hostToSearch = "hostname"
+    timeToSearch = "localtime"
+
+    # os-release
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(usrDirectory in dirs):
@@ -118,17 +125,86 @@ def getInfo():
             break
     
     for relPath,dirs,files in os.walk(targetedLayer):
-        if(fileToSearch in files):
-            targetPath = os.path.join(targetedLayer,relPath,fileToSearch)
+        if(osToSearch in files):
+            osPath = os.path.join(targetedLayer,relPath,osToSearch)
             break
+        else:
+            osPath = False
+    
+    bool(osPath)
+    if osPath is False:
+        with open("OS Information.txt", "w") as output:
+            output.write("Extracted from mount point: " + rootDirectory + "\n")
+            output.write("File not found! Try search manually at: /usr/lib/os-release")
+        print("\nFile not found! Try search manually at: /usr/lib/os-release")
+        print("\nFile OS Information extracted at: " + currentWorkingDirectory)  
+        return
 
-    with open(targetPath, "r") as input:
-        with open("os-release.txt", "w") as output:
+    with open(osPath, "r") as input:
+        with open("OS Information.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n\n")
             for line in input:
                 output.write(line)
+    
+    # hostname
 
-    print("\nFile os-release extracted at: " + currentWorkingDirectory)        
+    for relPath,dirs,files in os.walk(rootDirectory):
+        if(etcDirectory in dirs):
+            targetDirectory = os.path.join(rootDirectory,relPath,etcDirectory)
+            break
+    
+    for relPath,dirs,files in os.walk(targetDirectory):
+        if(hostToSearch in files):
+            hostPath = os.path.join(targetDirectory,relPath,hostToSearch)
+            break
+        else:
+            hostPath = False
+    
+    bool(hostPath)
+    if hostPath is False:
+        with open("OS Information.txt", "a") as output:
+            output.write("\n")
+            output.write("File not found! Try search manually at: /etc/hostname")
+        print("\nFile not found! Try search manually at: /etc/hostname")
+        print("\nFile OS Information extracted at: " + currentWorkingDirectory)  
+        return
+
+    with open(hostPath, "r") as input:
+        with open("OS Information.txt", "a") as output:
+            output.write("Hostname= ")
+            for line in input:
+                output.write(line)
+
+    # zoneinfo
+
+    for relPath,dirs,files in os.walk(rootDirectory):
+        if(etcDirectory in dirs):
+            timeDirectory = os.path.join(rootDirectory,relPath,etcDirectory)
+            break
+    
+    for relPath,dirs,files in os.walk(timeDirectory):
+        if(timeToSearch in files):
+            timePath = os.path.join(timeDirectory,relPath,timeToSearch)
+            break
+        else:
+            timePath = False
+    
+    bool(timePath)
+    if timePath is False:
+        with open("OS Information.txt", "a") as output:
+            output.write("\n")
+            output.write("File not found! Try search manually at: /etc/localtime")
+        print("\nFile not found! Try search manually at: /etc/localtime")
+        print("\nFile OS Information extracted at: " + currentWorkingDirectory)  
+        return
+
+    with open(timePath, "r") as input:
+        with open("OS Information.txt", "a") as output:
+            output.write("Time Zone= ")
+            for line in input:
+                output.write(line)
+
+    print("\nFile OS Information extracted at: " + currentWorkingDirectory)        
               
     return
 

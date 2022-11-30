@@ -21,4 +21,5 @@ Problem to be solved:
 
 Things left to do:
 
-1) Everything except for Process Execution 
+1) Error Handling for multiple query such as OS Information
+2) Every function except for Process Execution
