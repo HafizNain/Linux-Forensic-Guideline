@@ -43,7 +43,7 @@ These are some of the artifacts that can be extracted instantly!
         case "6":
             return 0
         case "7":
-            return 0
+            recentlyUsed()
         case "8":
             return 0
         case "9":
@@ -277,6 +277,58 @@ def getUser():
                 output.write(line)
 
     print("\nFile User and Group extracted at: " + currentWorkingDirectory)
+    return
+
+#####################################################################
+# Recently Used Application
+#####################################################################
+
+def recentlyUsed():
+
+    homeDirectory = "home"
+    localDirectory = ".local"
+    shareDirectory = "share"
+    recentToSearch = "recently-used.xbel"
+
+    for relPath,dirs,files in os.walk(rootDirectory):
+        if(homeDirectory in dirs):
+            firstDirectory = os.path.join(rootDirectory,relPath,homeDirectory)
+            break
+    
+    for relPath,dirs,files in os.walk(firstDirectory):
+        if(localDirectory in dirs):
+            secDirectory = os.path.join(rootDirectory,relPath,localDirectory)
+            break
+    
+    for relPath,dirs,files in os.walk(secDirectory):
+        if(shareDirectory in dirs):
+            targetDirectory = os.path.join(rootDirectory,relPath,shareDirectory)
+            break
+
+    for relPath,dirs,files in os.walk(targetDirectory):
+        if(recentToSearch in files):
+            targetPath = os.path.join(targetDirectory,relPath,recentToSearch)
+            break
+        else:
+            targetPath = False
+    
+    bool(targetPath)
+    if targetPath is False:
+        with open("Recently Used Application.txt", "w") as output:
+            output.write("Extracted from mount point: " + rootDirectory + "\n")
+            output.write("File not found! Try search manually at: /home/.local/share")
+        print("\nFile not found! Try search manually at: /home/.local/share")
+        print("\nFile Recently Used Application extracted at: " + currentWorkingDirectory)
+        return
+    
+    with open(targetPath, "r") as input:
+        with open("Recently Used Application.txt", "w") as output:
+            output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+            for line in input:
+                output.write(line)
+
+    print("\nFile Recently Used Application extracted at: " + currentWorkingDirectory)
+
     return
 
 #####################################################################
