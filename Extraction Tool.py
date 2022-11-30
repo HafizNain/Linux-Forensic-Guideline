@@ -11,11 +11,19 @@ def getchoice():
     menu = """
 These are some of the artifacts that can be extracted instantly!
 
-1. Bash History
-2. Trash Bin
-3. Recently Used Application
-4. Users
-0. Exit
+1) OS Information
+2) Network Configurations
+3) Process Execution
+4) Account and Group
+5) Trash Bin
+6) Deleted Data
+7) Recently Used Application
+8) Thumbnails
+9) Important Logs
+10) Basic Home Folders
+11) Mozilla Browser Artifacts Path
+12) Web Folder
+0) Exit
 """
     print(menu)
 
@@ -23,13 +31,29 @@ These are some of the artifacts that can be extracted instantly!
 
     match choice:
         case "1":
-            getHistory()
+            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
         case "2":
-            getHistory()
+            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
         case "3":
             getHistory()
         case "4":
-            getHistory()
+            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+        case "5":
+            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+        case "6":
+            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+        case "7":
+            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+        case "8":
+            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+        case "9":
+            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+        case "10":
+            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+        case "11":
+            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+        case "12":
+            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
         case "0":
             quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
 
@@ -52,10 +76,18 @@ def getHistory():
             targetPath = os.path.join(targetDirectory,relPath,fileToSearch)
             with open(targetPath, "r") as input:
                 with open("Bash History.txt", "w") as output:
+                    output.write("Extracted from mount point: " + rootDirectory + "\n\n")
                     for line in input:
                         output.write(line)
-    print("\nBash History.txt extracted at: " + currentWorkingDirectory)
+                    print("\nBash History.txt extracted at: " + currentWorkingDirectory)
+       
     return getchoice()
+
+#####################################################################
+# Change Mount Point
+#####################################################################
+
+
 
 #####################################################################
 # Main Program
