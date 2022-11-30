@@ -31,31 +31,33 @@ These are some of the artifacts that can be extracted instantly!
 
     match choice:
         case "1":
-            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+            getInfo()
         case "2":
-            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+            return 0
         case "3":
             getHistory()
         case "4":
-            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+            return 0
         case "5":
-            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+            return 0
         case "6":
-            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+            return 0
         case "7":
-            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+            return 0
         case "8":
-            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+            return 0
         case "9":
-            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+            return 0
         case "10":
-            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+            return 0
         case "11":
-            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+            return 0
         case "12":
-            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+            return 0
         case "0":
             quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+    
+    return choice
 
 #####################################################################
 # Get Bash History
@@ -74,20 +76,61 @@ def getHistory():
     for relPath,dirs,files in os.walk(targetDirectory):
         if(fileToSearch in files):
             targetPath = os.path.join(targetDirectory,relPath,fileToSearch)
-            with open(targetPath, "r") as input:
-                with open("Bash History.txt", "w") as output:
-                    output.write("Extracted from mount point: " + rootDirectory + "\n\n")
-                    for line in input:
-                        output.write(line)
-                    print("\nBash History.txt extracted at: " + currentWorkingDirectory)
-       
-    return getchoice()
+        else:
+            targetPath = False
+    
+    bool(targetPath)
+    if targetPath is False:
+        with open("Bash History.txt", "w") as output:
+            output.write("Extracted from mount point: " + rootDirectory + "\n")
+            output.write("File not found! Try search manually at: /home/user/._bashhistory")
+        print("\nFile not found! Please do manual search!")
+        return
+
+    with open(targetPath, "r") as input:
+        with open("Bash History.txt", "w") as output:
+            output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+            for line in input:
+                output.write(line)
+
+    print("\nFile ._bashhistory extracted at: " + currentWorkingDirectory)
+
+    return
 
 #####################################################################
-# Change Mount Point
+# OS Information
 #####################################################################
 
+def getInfo():
 
+    usrDirectory = "usr"
+    libDirectory = "lib"
+    fileToSearch = "os-release"
+
+    for relPath,dirs,files in os.walk(rootDirectory):
+        if(usrDirectory in dirs):
+            firstLayer = os.path.join(rootDirectory,relPath,usrDirectory)
+            break
+
+    for relPath,dirs,files in os.walk(firstLayer):
+        if(libDirectory in dirs):
+            targetedLayer = os.path.join(firstLayer,relPath,libDirectory)
+            break
+    
+    for relPath,dirs,files in os.walk(targetedLayer):
+        if(fileToSearch in files):
+            targetPath = os.path.join(targetedLayer,relPath,fileToSearch)
+            break
+
+    with open(targetPath, "r") as input:
+        with open("os-release.txt", "w") as output:
+            output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+            for line in input:
+                output.write(line)
+
+    print("\nFile os-release extracted at: " + currentWorkingDirectory)        
+              
+    return
 
 #####################################################################
 # Main Program
@@ -107,7 +150,12 @@ rootDirectory = filedialog.askdirectory()
 # print("Root directory for the mounted image is: " + rootDirectory)
 # print(dirList)
 
-getchoice()
+choice = getchoice()
+
+while(choice != 0):
+    getchoice()
+else:
+    quit("Thank you for using Linux Artifacts Extraction Tool!")
 
 #####################################################################
 # END
