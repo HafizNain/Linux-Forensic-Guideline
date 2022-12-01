@@ -39,7 +39,7 @@ These are some of the artifacts that can be extracted instantly!
         case "4":
             getUser()
         case "5":
-            return 0
+            getTrash()
         case "6":
             return 0
         case "7":
@@ -410,6 +410,72 @@ def logs():
                 output.write(line)
 
     print("\nFile Important Logs extracted at: " + currentWorkingDirectory)
+    return
+
+#####################################################################
+# Trash Bin
+#####################################################################
+
+def getTrash():
+
+    homeDirectory = "home"
+    localDirectory = ".local"
+    shareDirectory = "share"
+    trashDirectory = "Trash"
+    expungedFolder = "expunged"
+    filesFolder = "files"
+    infoFolder = "info"
+
+    for relPath,dirs,files in os.walk(rootDirectory):
+        if(homeDirectory in dirs):
+            firstDirectory = os.path.join(rootDirectory,relPath,homeDirectory)
+            break
+
+    for relPath,dirs,files in os.walk(firstDirectory):
+        if(localDirectory in dirs):
+            secDirectory = os.path.join(firstDirectory,relPath,localDirectory)
+            break
+
+    for relPath,dirs,files in os.walk(secDirectory):
+        if(shareDirectory in dirs):
+            thirdDirectory = os.path.join(secDirectory,relPath,shareDirectory)
+            break
+    
+    for relPath,dirs,files in os.walk(thirdDirectory):
+        if(trashDirectory in dirs):
+            lastDirectory = os.path.join(thirdDirectory,relPath,trashDirectory)
+            break
+    
+    # files
+    for relPath,dirs,files in os.walk(lastDirectory):
+        if(filesFolder in dirs):
+            trashFiles = os.path.join(lastDirectory,relPath,filesFolder)
+            trash = os.listdir(trashFiles)
+            break
+    
+    with open("files.txt", "w") as output:
+        output.write('\n'.join(trash))
+    
+    # expunged
+    for relPath,dirs,files in os.walk(lastDirectory):
+        if(expungedFolder in dirs):
+            expungedFiles = os.path.join(lastDirectory,relPath,expungedFolder)
+            expunged = os.listdir(expungedFiles)
+            break
+    
+    with open("expunged.txt", "w") as output:
+        output.write('\n'.join(expunged))
+    
+    # info
+    for relPath,dirs,files in os.walk(lastDirectory):
+        if(infoFolder in dirs):
+            infoFiles = os.path.join(lastDirectory,relPath,infoFolder)
+            info = os.listdir(infoFiles)
+            break
+    
+    with open("info.txt", "w") as output:
+        output.write('\n'.join(info))
+    
     return
 
 #####################################################################
