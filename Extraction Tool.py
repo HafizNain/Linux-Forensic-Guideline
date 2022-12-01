@@ -23,6 +23,7 @@ These are some of the artifacts that can be extracted instantly!
 10) Basic Home Folders
 11) Mozilla Browser Artifacts Path
 12) Web Folder
+13) All in one
 0) Exit
 """
     print(menu)
@@ -41,7 +42,7 @@ These are some of the artifacts that can be extracted instantly!
         case "5":
             getTrash()
         case "6":
-            return 0
+            deletedData()
         case "7":
             recentlyUsed()
         case "8":
@@ -53,6 +54,8 @@ These are some of the artifacts that can be extracted instantly!
         case "11":
             return 0
         case "12":
+            return 0
+        case "13":
             return 0
         case "0":
             quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
@@ -454,6 +457,7 @@ def getTrash():
             break
     
     with open("files.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(trash))
     
     # expunged
@@ -464,6 +468,7 @@ def getTrash():
             break
     
     with open("expunged.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(expunged))
     
     # info
@@ -474,8 +479,31 @@ def getTrash():
             break
     
     with open("info.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(info))
     
+    print("\nFile Trash Bin extracted at: " + currentWorkingDirectory)
+    return
+
+#####################################################################
+# Main Program
+#####################################################################
+
+def deletedData():
+
+    lostFoundDirectory = "lost+found"
+
+    for relPath,dirs,files in os.walk(rootDirectory):
+        if(lostFoundDirectory in dirs):
+            lostfoundFiles = os.path.join(rootDirectory,relPath,lostFoundDirectory)
+            lostfound = os.listdir(lostfoundFiles)
+            break
+    
+    with open("lost+found.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+        output.write('\n'.join(lostfound))
+
+    print("\nFile Deleted Data extracted at: " + currentWorkingDirectory)
     return
 
 #####################################################################
