@@ -8,6 +8,8 @@ from tkinter import filedialog
 
 def getchoice():
 
+    print("Root is: " + rootDirectory)
+
     menu = """
 These are some of the artifacts that can be extracted instantly!
 
@@ -50,7 +52,7 @@ These are some of the artifacts that can be extracted instantly!
         case "9":
             logs()
         case "10":
-            return 0
+            homeFolder()
         case "11":
             getMozilla()
         case "12":
@@ -58,7 +60,7 @@ These are some of the artifacts that can be extracted instantly!
         case "13":
             return 0
         case "0":
-            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+            return 0
     
     return choice
 
@@ -641,6 +643,100 @@ def getMozilla():
     return
 
 #####################################################################
+# Basic Home Folders
+#####################################################################
+
+def homeFolder():
+
+    homeDirectory = "home"
+    desktopDirectory = "Desktop"
+    docDirectory = "Documents"
+    downloadDirectory = "Downloads"
+    musicDirectory = "Music"
+    picDirectory = "Pictures"
+    vidDirectory = "Videos"
+
+    for relPath,dirs,files in os.walk(rootDirectory):
+        if(homeDirectory in dirs):
+            targetDirectory = os.path.join(rootDirectory,relPath,homeDirectory)
+            break
+    
+    # Desktop
+
+    for relPath,dirs,files in os.walk(targetDirectory):
+        if(desktopDirectory in dirs):
+            desktopFiles = os.path.join(targetDirectory,relPath,desktopDirectory)
+            desktop = os.listdir(desktopFiles)
+            break
+    
+    with open("desktop.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+        output.write('\n'.join(desktop))
+    
+    # Documents
+
+    for relPath,dirs,files in os.walk(targetDirectory):
+        if(docDirectory in dirs):
+            docFiles = os.path.join(targetDirectory,relPath,docDirectory)
+            doc = os.listdir(docFiles)
+            break
+    
+    with open("documents.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+        output.write('\n'.join(doc))
+
+    # Download
+
+    for relPath,dirs,files in os.walk(targetDirectory):
+        if(downloadDirectory in dirs):
+            downloadFiles = os.path.join(targetDirectory,relPath,downloadDirectory)
+            download = os.listdir(downloadFiles)
+            break
+    
+    with open("download.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+        output.write('\n'.join(download))
+    
+    # Music
+
+    for relPath,dirs,files in os.walk(targetDirectory):
+        if(musicDirectory in dirs):
+            musicFiles = os.path.join(targetDirectory,relPath,musicDirectory)
+            music = os.listdir(musicFiles)
+            break
+    
+    with open("music.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+        output.write('\n'.join(music))
+    
+    # Pictures
+
+    for relPath,dirs,files in os.walk(targetDirectory):
+        if(picDirectory in dirs):
+            picFiles = os.path.join(targetDirectory,relPath,picDirectory)
+            pic = os.listdir(picFiles)
+            break
+    
+    with open("pictures.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+        output.write('\n'.join(pic))
+    
+    # Videos
+
+    for relPath,dirs,files in os.walk(targetDirectory):
+        if(vidDirectory in dirs):
+            vidFiles = os.path.join(targetDirectory,relPath,vidDirectory)
+            vid = os.listdir(vidFiles)
+            break
+    
+    with open("videos.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+        output.write('\n'.join(vid))
+
+    print("\nFile Basic Home Folders extracted at: " + currentWorkingDirectory)        
+    return
+
+#####################################################################
 # Main Program
 #####################################################################
 
@@ -653,12 +749,15 @@ root.withdraw()
 currentWorkingDirectory = os.getcwd()
 rootDirectory = filedialog.askdirectory()
 
+if (rootDirectory == ""):
+    quit("Thank you for using Linux Artifacts Extraction Tool!")
+
 choice = getchoice()
 
 while(choice != 0):
     getchoice()
 else:
-    quit("Thank you for using Linux Artifacts Extraction Tool!")
+    quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
 
 #####################################################################
 # END

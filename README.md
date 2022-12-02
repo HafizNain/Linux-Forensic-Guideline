@@ -17,7 +17,6 @@ List of Artifacts:
 
 Things left to do:
 
-1) Function 2,10
+1) Network Artifacts
 2) Creating a folder for each class of artifacts
-3) Finding necessary artfiacts for network
-4) Creating nested function for error handling in OS information
+3) Creating nested function for error handling in OS information
