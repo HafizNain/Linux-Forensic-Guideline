@@ -90,7 +90,7 @@ def getHistory():
     
     bool(targetPath)
     if targetPath is False:
-        with open("Bash History.txt", "w") as output:
+        with open(path + "/Bash History.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n")
             output.write("File not found! Try search manually at: /home/user/._bashhistory")
         print("\nFile not found! Try search manually at: /home/user/._bashhistory")
@@ -113,12 +113,16 @@ def getHistory():
 
 def getInfo():
 
+    newFolder = "OS Information"
     usrDirectory = "usr"
     libDirectory = "lib"
     etcDirectory = "etc"
     osToSearch = "os-release"
     hostToSearch = "hostname"
     timeToSearch = "localtime"
+
+    path = os.path.join(mainFolder,newFolder)
+    os.mkdir(path)
 
     # os-release
 
@@ -141,15 +145,15 @@ def getInfo():
     
     bool(osPath)
     if osPath is False:
-        with open("OS Information.txt", "w") as output:
+        with open(path + "\OS Information.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n")
             output.write("File not found! Try search manually at: /usr/lib/os-release")
         print("\nFile not found! Try search manually at: /usr/lib/os-release")
-        print("\nFile OS Information extracted at: " + currentWorkingDirectory)  
+        print("\nFile OS Information extracted at: " + path)  
         return
 
     with open(osPath, "r") as input:
-        with open("OS Information.txt", "w") as output:
+        with open(path + "\OS Information.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n\n")
             for line in input:
                 output.write(line)
@@ -170,15 +174,15 @@ def getInfo():
     
     bool(hostPath)
     if hostPath is False:
-        with open("OS Information.txt", "a") as output:
+        with open(path + "\OS Information.txt", "a") as output:
             output.write("\n")
             output.write("File not found! Try search manually at: /etc/hostname")
         print("\nFile not found! Try search manually at: /etc/hostname")
-        print("\nFile OS Information extracted at: " + currentWorkingDirectory)  
+        print("\nFile OS Information extracted at: " + path)  
         return
 
     with open(hostPath, "r") as input:
-        with open("OS Information.txt", "a") as output:
+        with open(path + "\OS Information.txt", "a") as output:
             output.write("Hostname= ")
             for line in input:
                 output.write(line)
@@ -199,20 +203,20 @@ def getInfo():
     
     bool(timePath)
     if timePath is False:
-        with open("OS Information.txt", "a") as output:
+        with open(path + "\OS Information.txt", "a") as output:
             output.write("\n")
             output.write("File not found! Try search manually at: /etc/localtime")
         print("\nFile not found! Try search manually at: /etc/localtime")
-        print("\nFile OS Information extracted at: " + currentWorkingDirectory)  
+        print("\nFile OS Information extracted at: " + path)  
         return
 
     with open(timePath, "r") as input:
-        with open("OS Information.txt", "a") as output:
+        with open(path + "\OS Information.txt", "a") as output:
             output.write("Time Zone= ")
             for line in input:
                 output.write(line)
 
-    print("\nFile OS Information extracted at: " + currentWorkingDirectory)        
+    print("\nFile OS Information extracted at: " + path)        
               
     return
 
@@ -222,9 +226,13 @@ def getInfo():
 
 def getUser():
 
+    newFolder = "User and Group"
     etcDirectory = "etc"
     passwdToSearch = "passwd"
     groupToSearch = "group"
+
+    path = os.path.join(mainFolder,newFolder)
+    os.mkdir(path)
 
     # Users
 
@@ -242,15 +250,15 @@ def getUser():
     
     bool(passwdPath)
     if passwdPath is False:
-        with open("Users.txt", "w") as output:
+        with open(path + "/Users.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n")
             output.write("File not found! Try search manually at: /etc/passwd")
         print("\nFile not found! Try search manually at: /etc/passwd")
-        print("\nFile User and Group extracted at: " + currentWorkingDirectory)
+        print("\nFile User and Group extracted at: " + path)
         return
 
     with open(passwdPath, "r") as input:
-        with open("Users.txt", "w") as output:
+        with open(path + "/Users.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n\n")
             for line in input:
                 output.write(line)
@@ -271,20 +279,20 @@ def getUser():
     
     bool(groupPath)
     if groupPath is False:
-        with open("Groups.txt", "w") as output:
+        with open(path + "/Groups.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n")
             output.write("File not found! Try search manually at: /etc/group")
         print("\nFile not found! Try search manually at: /etc/group")
-        print("\nFile User and Group extracted at: " + currentWorkingDirectory)
+        print("\nFile User and Group extracted at: " + path)
         return
 
     with open(groupPath, "r") as input:
-        with open("Groups.txt", "w") as output:
+        with open(path + "/Groups.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n\n")
             for line in input:
                 output.write(line)
 
-    print("\nFile User and Group extracted at: " + currentWorkingDirectory)
+    print("\nFile User and Group extracted at: " + path)
     return
 
 #####################################################################
@@ -293,10 +301,14 @@ def getUser():
 
 def recentlyUsed():
 
+    newFolder = "Recently Used Application"
     homeDirectory = "home"
     localDirectory = ".local"
     shareDirectory = "share"
     recentToSearch = "recently-used.xbel"
+
+    path = os.path.join(mainFolder,newFolder)
+    os.mkdir(path)
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(homeDirectory in dirs):
@@ -322,20 +334,20 @@ def recentlyUsed():
     
     bool(targetPath)
     if targetPath is False:
-        with open("Recently Used Application.txt", "w") as output:
+        with open(path + "\Recently Used Application.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n")
             output.write("File not found! Try search manually at: /home/.local/share")
         print("\nFile not found! Try search manually at: /home/.local/share")
-        print("\nFile Recently Used Application extracted at: " + currentWorkingDirectory)
+        print("\nFile Recently Used Application extracted at: " + path)
         return
     
     with open(targetPath, "r") as input:
-        with open("Recently Used Application.txt", "w") as output:
+        with open(path + "\Recently Used Application.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n\n")
             for line in input:
                 output.write(line)
 
-    print("\nFile Recently Used Application extracted at: " + currentWorkingDirectory)
+    print("\nFile Recently Used Application extracted at: " + path)
 
     return
 #####################################################################
@@ -344,11 +356,15 @@ def recentlyUsed():
 
 def logs():
      
+    newFolder = "Important Logs"
     varDirectory = "var"
     logDirectory = "log"
     authToSearch = "auth.log"
     sysToSearch = "syslog"
-     
+    
+    path = os.path.join(mainFolder,newFolder)
+    os.mkdir(path)
+
     # auth.log
 
     for relPath,dirs,files in os.walk(rootDirectory):
@@ -370,15 +386,15 @@ def logs():
     
     bool(targetPath)
     if targetPath is False:
-        with open("authLog.txt", "w") as output:
+        with open(path + "\AuthLog.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n")
             output.write("File not found! Try search manually at: /var/log")
         print("\nFile not found! Try search manually at: /var/log")
-        print("\nFile Important Logs extracted at: " + currentWorkingDirectory)
+        print("\nFile Important Logs extracted at: " + path)
         return
     
     with open(targetPath, "r") as input:
-        with open("authLog.txt", "w") as output:
+        with open(path + "\AuthLog.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n\n")
             for line in input:
                 output.write(line)
@@ -404,20 +420,20 @@ def logs():
     
     bool(targetPath)
     if targetPath is False:
-        with open("syslog.txt", "w") as output:
+        with open(path + "\syslog.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n")
             output.write("File not found! Try search manually at: /var/log")
         print("\nFile not found! Try search manually at: /var/log")
-        print("\nFile Important Logs extracted at: " + currentWorkingDirectory)
+        print("\nFile Important Logs extracted at: " + path)
         return
     
     with open(targetPath, "r", errors="ignore") as input:
-        with open("sys.txt", "w") as output:
+        with open(path + "\sys.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n\n")
             for line in input:
                 output.write(line)
 
-    print("\nFile Important Logs extracted at: " + currentWorkingDirectory)
+    print("\nFile Important Logs extracted at: " + path)
     return
 
 #####################################################################
@@ -426,6 +442,7 @@ def logs():
 
 def getTrash():
 
+    newFolder = "Trash Bin"
     homeDirectory = "home"
     localDirectory = ".local"
     shareDirectory = "share"
@@ -433,6 +450,10 @@ def getTrash():
     expungedFolder = "expunged"
     filesFolder = "files"
     infoFolder = "info"
+
+    path = os.path.join(mainFolder,newFolder)
+    os.mkdir(path)
+
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(homeDirectory in dirs):
@@ -461,7 +482,7 @@ def getTrash():
             trash = os.listdir(trashFiles)
             break
     
-    with open("files.txt", "w") as output:
+    with open(path + "\Files.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(trash))
     
@@ -472,7 +493,7 @@ def getTrash():
             expunged = os.listdir(expungedFiles)
             break
     
-    with open("expunged.txt", "w") as output:
+    with open(path + "\expunged.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(expunged))
     
@@ -483,11 +504,11 @@ def getTrash():
             info = os.listdir(infoFiles)
             break
     
-    with open("info.txt", "w") as output:
+    with open(path + "\info.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(info))
     
-    print("\nFile Trash Bin extracted at: " + currentWorkingDirectory)
+    print("\nFile Trash Bin extracted at: " + path)
     return
 
 #####################################################################
@@ -496,7 +517,10 @@ def getTrash():
 
 def deletedData():
 
+    newFolder = "Deleted Data"
     lostFoundDirectory = "lost+found"
+    path = os.path.join(mainFolder,newFolder)
+    os.mkdir(path)
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(lostFoundDirectory in dirs):
@@ -504,11 +528,11 @@ def deletedData():
             lostfound = os.listdir(lostfoundFiles)
             break
     
-    with open("lost+found.txt", "w") as output:
+    with open(path + "\lost+found.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(lostfound))
 
-    print("\nFile Deleted Data extracted at: " + currentWorkingDirectory)
+    print("\nFile Deleted Data extracted at: " + path)
     return
 
 #####################################################################
@@ -517,12 +541,16 @@ def deletedData():
 
 def getThumbnail():
 
+    newFolder = "Thumbails"
     homeDirectory = "home"
     cacheDirectory = ".cache"
     thumbDirectory = "thumbnails"
     failFolder = "fail"
     largeFolder = "large"
     normalFolder = "normal"
+
+    path = os.path.join(mainFolder,newFolder)
+    os.mkdir(path)
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(homeDirectory in dirs):
@@ -547,7 +575,7 @@ def getThumbnail():
             large = os.listdir(largeFiles)
             break
     
-    with open("large.txt", "w") as output:
+    with open(path + "\large.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(large))
     
@@ -559,7 +587,7 @@ def getThumbnail():
             normal = os.listdir(normalFiles)
             break
     
-    with open("normal.txt", "w") as output:
+    with open(path + "\ normal.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(normal))
     
@@ -571,11 +599,11 @@ def getThumbnail():
             fail = os.listdir(failFiles)
             break
     
-    with open("fail.txt", "w") as output:
+    with open(path + "\Fail.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(fail))
 
-    print("\nFile Thumbnails extracted at: " + currentWorkingDirectory)
+    print("\nFile Thumbnails extracted at: " + path)
     return
 
 #####################################################################
@@ -584,9 +612,13 @@ def getThumbnail():
 
 def getWebFolder():
 
+    newFolder = "Web Folder"
     varDirectory = "var"
     wwwDirectory = "www"
     htmlDirectory = "html"
+
+    path = os.path.join(mainFolder,newFolder)
+    os.mkdir(path)
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(varDirectory in dirs):
@@ -604,11 +636,11 @@ def getWebFolder():
             html = os.listdir(htmlFiles)
             break
     
-    with open("html.txt", "w") as output:
+    with open(path + "\html.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(html))
 
-    print("\nFile Web Folder extracted at: " + currentWorkingDirectory)
+    print("\nFile Web Folder extracted at: " + path)
     return
 
 #####################################################################
@@ -617,9 +649,13 @@ def getWebFolder():
 
 def getMozilla():
 
+    newFolder = "Mozilla Browser Artifact"
     homeDirectory = "home"
     mozillaDirectory = ".mozilla"
     firefoxDirectory = "firefox"
+
+    path = os.path.join(mainFolder,newFolder)
+    os.mkdir(path)
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(homeDirectory in dirs):
@@ -637,12 +673,12 @@ def getMozilla():
             firefox = os.listdir(firefoxFiles)
             break
     
-    with open("Mozilla.txt", "w") as output:
+    with open(path + "\Mozilla.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(firefox))
 
 
-    print("\nFile Mozilla Browser Artifact extracted at: " + currentWorkingDirectory)
+    print("\nFile Mozilla Browser Artifact extracted at: " + path)
     return
 
 #####################################################################
@@ -651,6 +687,7 @@ def getMozilla():
 
 def homeFolder():
 
+    newFolder = "Basic Home Folders"
     homeDirectory = "home"
     desktopDirectory = "Desktop"
     docDirectory = "Documents"
@@ -658,6 +695,9 @@ def homeFolder():
     musicDirectory = "Music"
     picDirectory = "Pictures"
     vidDirectory = "Videos"
+
+    path = os.path.join(mainFolder,newFolder)
+    os.mkdir(path)
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(homeDirectory in dirs):
@@ -672,7 +712,7 @@ def homeFolder():
             desktop = os.listdir(desktopFiles)
             break
     
-    with open("desktop.txt", "w") as output:
+    with open(path + "\desktop.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(desktop))
     
@@ -684,7 +724,7 @@ def homeFolder():
             doc = os.listdir(docFiles)
             break
     
-    with open("documents.txt", "w") as output:
+    with open(path + "\documents.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(doc))
 
@@ -696,7 +736,7 @@ def homeFolder():
             download = os.listdir(downloadFiles)
             break
     
-    with open("download.txt", "w") as output:
+    with open(path + "\download.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(download))
     
@@ -708,7 +748,7 @@ def homeFolder():
             music = os.listdir(musicFiles)
             break
     
-    with open("music.txt", "w") as output:
+    with open(path + "\music.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(music))
     
@@ -720,7 +760,7 @@ def homeFolder():
             pic = os.listdir(picFiles)
             break
     
-    with open("pictures.txt", "w") as output:
+    with open(path + "\pictures.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(pic))
     
@@ -732,11 +772,11 @@ def homeFolder():
             vid = os.listdir(vidFiles)
             break
     
-    with open("videos.txt", "w") as output:
+    with open(path + "\Videos.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(vid))
 
-    print("\nFile Basic Home Folders extracted at: " + currentWorkingDirectory)        
+    print("\nFile Basic Home Folders extracted at: " + path)        
     return
 
 #####################################################################
