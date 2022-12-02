@@ -52,7 +52,7 @@ These are some of the artifacts that can be extracted instantly!
         case "10":
             return 0
         case "11":
-            return 0
+            getMozilla()
         case "12":
             getWebFolder()
         case "13":
@@ -607,6 +607,40 @@ def getWebFolder():
     return
 
 #####################################################################
+# Mozilla Browser Artifacts
+#####################################################################
+
+def getMozilla():
+
+    homeDirectory = "home"
+    mozillaDirectory = ".mozilla"
+    firefoxDirectory = "firefox"
+
+    for relPath,dirs,files in os.walk(rootDirectory):
+        if(homeDirectory in dirs):
+            firstDirectory = os.path.join(rootDirectory,relPath,homeDirectory)
+            break
+    
+    for relPath,dirs,files in os.walk(firstDirectory):
+        if(mozillaDirectory in dirs):
+            lastDirectory = os.path.join(firstDirectory,relPath,mozillaDirectory)
+            break
+    
+    for relPath,dirs,files in os.walk(lastDirectory):
+        if(firefoxDirectory in dirs):
+            firefoxFiles = os.path.join(lastDirectory,relPath,firefoxDirectory)
+            firefox = os.listdir(firefoxFiles)
+            break
+    
+    with open("Mozilla.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+        output.write('\n'.join(firefox))
+
+
+    print("\nFile Mozilla Browser Artifact extracted at: " + currentWorkingDirectory)
+    return
+
+#####################################################################
 # Main Program
 #####################################################################
 
@@ -618,11 +652,6 @@ root.withdraw()
 
 currentWorkingDirectory = os.getcwd()
 rootDirectory = filedialog.askdirectory()
-# dirList = os.listdir(targetDirectory)
-
-# print("Current working directory is: " + currentWorkingDirectory)
-# print("Root directory for the mounted image is: " + rootDirectory)
-# print(dirList)
 
 choice = getchoice()
 
