@@ -46,7 +46,7 @@ These are some of the artifacts that can be extracted instantly!
         case "7":
             recentlyUsed()
         case "8":
-            return 0
+            getThumbnail()
         case "9":
             logs()
         case "10":
@@ -486,7 +486,7 @@ def getTrash():
     return
 
 #####################################################################
-# Main Program
+# Deleted Data
 #####################################################################
 
 def deletedData():
@@ -504,6 +504,73 @@ def deletedData():
         output.write('\n'.join(lostfound))
 
     print("\nFile Deleted Data extracted at: " + currentWorkingDirectory)
+    return
+
+#####################################################################
+# Thumbnails
+#####################################################################
+
+def getThumbnail():
+
+    homeDirectory = "home"
+    cacheDirectory = ".cache"
+    thumbDirectory = "thumbnails"
+    failFolder = "fail"
+    largeFolder = "large"
+    normalFolder = "normal"
+
+    for relPath,dirs,files in os.walk(rootDirectory):
+        if(homeDirectory in dirs):
+            firstDirectory = os.path.join(rootDirectory,relPath,homeDirectory)
+            break
+    
+    for relPath,dirs,files in os.walk(firstDirectory):
+        if(cacheDirectory in dirs):
+            secDirectory = os.path.join(firstDirectory,relPath,cacheDirectory)
+            break
+    
+    for relPath,dirs,files in os.walk(secDirectory):
+        if(thumbDirectory in dirs):
+            lastDirectory = os.path.join(secDirectory,relPath,thumbDirectory)
+            break
+
+    # large
+
+    for relPath,dirs,files in os.walk(lastDirectory):
+        if(largeFolder in dirs):
+            largeFiles = os.path.join(lastDirectory,relPath,largeFolder)
+            large = os.listdir(largeFiles)
+            break
+    
+    with open("large.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+        output.write('\n'.join(large))
+    
+    # normal
+
+    for relPath,dirs,files in os.walk(lastDirectory):
+        if(normalFolder in dirs):
+            normalFiles = os.path.join(lastDirectory,relPath,normalFolder)
+            normal = os.listdir(normalFiles)
+            break
+    
+    with open("normal.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+        output.write('\n'.join(normal))
+    
+    # fail
+
+    for relPath,dirs,files in os.walk(lastDirectory):
+        if(failFolder in dirs):
+            failFiles = os.path.join(lastDirectory,relPath,failFolder)
+            fail = os.listdir(failFiles)
+            break
+    
+    with open("fail.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+        output.write('\n'.join(fail))
+
+    print("\nFile Thumbnails extracted at: " + currentWorkingDirectory)
     return
 
 #####################################################################
