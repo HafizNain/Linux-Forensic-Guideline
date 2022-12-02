@@ -54,7 +54,7 @@ These are some of the artifacts that can be extracted instantly!
         case "11":
             return 0
         case "12":
-            return 0
+            getWebFolder()
         case "13":
             return 0
         case "0":
@@ -571,6 +571,39 @@ def getThumbnail():
         output.write('\n'.join(fail))
 
     print("\nFile Thumbnails extracted at: " + currentWorkingDirectory)
+    return
+
+#####################################################################
+# Web Folder
+#####################################################################
+
+def getWebFolder():
+
+    varDirectory = "var"
+    wwwDirectory = "www"
+    htmlDirectory = "html"
+
+    for relPath,dirs,files in os.walk(rootDirectory):
+        if(varDirectory in dirs):
+            firstDirectory = os.path.join(rootDirectory,relPath,varDirectory)
+            break
+    
+    for relPath,dirs,files in os.walk(firstDirectory):
+        if(wwwDirectory in dirs):
+            lastDirectory = os.path.join(firstDirectory,relPath,wwwDirectory)
+            break
+    
+    for relPath,dirs,files in os.walk(lastDirectory):
+        if(htmlDirectory in dirs):
+            htmlFiles = os.path.join(lastDirectory,relPath,htmlDirectory)
+            html = os.listdir(htmlFiles)
+            break
+    
+    with open("html.txt", "w") as output:
+        output.write("Extracted from mount point: " + rootDirectory + "\n\n")
+        output.write('\n'.join(html))
+
+    print("\nFile Web Folder extracted at: " + currentWorkingDirectory)
     return
 
 #####################################################################
