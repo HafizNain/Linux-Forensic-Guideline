@@ -1,3 +1,7 @@
+#####################################################################
+# START
+#####################################################################
+
 import os
 import tkinter as tk
 from tkinter import filedialog
@@ -8,24 +12,21 @@ from tkinter import filedialog
 
 def getchoice():
 
-    print("Root is: " + rootDirectory)
-
     menu = """
 These are some of the artifacts that can be extracted instantly!
 
 1) OS Information
-2) Network Configurations
-3) Process Execution
-4) Account and Group
-5) Trash Bin
-6) Deleted Data
-7) Recently Used Application
-8) Thumbnails
-9) Important Logs
-10) Basic Home Folders
-11) Mozilla Browser Artifacts Path
-12) Web Folder
-13) All in one
+2) Process Execution
+3) Account and Group
+4) Trash Bin
+5) Deleted Data
+6) Recently Used Application
+7) Thumbnails
+8) Important Logs
+9) Basic Home Folders
+10) Mozilla Browser Artifacts Path
+11) Web Folder
+12) All in one
 0) Exit
 """
     print(menu)
@@ -36,31 +37,29 @@ These are some of the artifacts that can be extracted instantly!
         case "1":
             getInfo()
         case "2":
-            return 0
-        case "3":
             getHistory()
-        case "4":
+        case "3":
             getUser()
-        case "5":
+        case "4":
             getTrash()
-        case "6":
+        case "5":
             deletedData()
-        case "7":
+        case "6":
             recentlyUsed()
-        case "8":
+        case "7":
             getThumbnail()
-        case "9":
+        case "8":
             logs()
-        case "10":
+        case "9":
             homeFolder()
-        case "11":
+        case "10":
             getMozilla()
-        case "12":
+        case "11":
             getWebFolder()
-        case "13":
-            return 0
+        case "12":
+            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
         case "0":
-            return 0
+            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
     
     return choice
 
@@ -70,8 +69,12 @@ These are some of the artifacts that can be extracted instantly!
 
 def getHistory():
 
+    newFolder = "Process Execution"
     fileToSearch = ".bash_history"
     directoryToSearch = "home"
+
+    path = os.path.join(mainFolder,newFolder)
+    os.mkdir(path)
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(directoryToSearch in dirs):
@@ -91,16 +94,16 @@ def getHistory():
             output.write("Extracted from mount point: " + rootDirectory + "\n")
             output.write("File not found! Try search manually at: /home/user/._bashhistory")
         print("\nFile not found! Try search manually at: /home/user/._bashhistory")
-        print("\nFile Process Execution extracted at: " + currentWorkingDirectory)
+        print("\nFile Process Execution extracted at: " + path)
         return
-    
+
     with open(targetPath, "r") as input:
-        with open("Bash History.txt", "w") as output:
+        with open(path + "/Bash History.txt", "w") as output:
             output.write("Extracted from mount point: " + rootDirectory + "\n\n")
             for line in input:
                 output.write(line)
 
-    print("\nFile Process Execution extracted at: " + currentWorkingDirectory)
+    print("\nFile Process Execution extracted at: " + path)
 
     return
 
@@ -746,8 +749,13 @@ print("\nPlease enter the location path for the mounted image: \n")
 root = tk.Tk()
 root.withdraw()
 
+folderName = "Linux Extraction Tool Acquisition Result"
+
 currentWorkingDirectory = os.getcwd()
 rootDirectory = filedialog.askdirectory()
+
+mainFolder = os.path.join(currentWorkingDirectory,folderName)
+os.mkdir(mainFolder)
 
 if (rootDirectory == ""):
     quit("Thank you for using Linux Artifacts Extraction Tool!")
@@ -756,8 +764,6 @@ choice = getchoice()
 
 while(choice != 0):
     getchoice()
-else:
-    quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
 
 #####################################################################
 # END
