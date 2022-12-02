@@ -14,8 +14,10 @@ List of Artifacts:
 10) Mozilla Browser Artifacts Path - (home.mozilla)
 11) Web Folder (var/www/html)
 
-Things left to do:
+Future Work:
 
-1) Creating a folder for each class of artifacts
-2) Creating nested function for error handling in OS information
-3) Convert script into .exe file
+1) Convert script into .exe file
+2) Extract the actual file, not converted into txt file
+3) Graphical User Interface using tkinter
+4) Better Error Handling
+5) Better Searching Method
