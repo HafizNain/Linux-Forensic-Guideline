@@ -20,4 +20,6 @@ Future Work:
 2) Extract the actual file, not converted into txt file
 3) Graphical User Interface using tkinter
 4) Better Error Handling
-5) Better Searching Method
+5) Better Searching Method (Keyword & Time)
+6) Showcase Deleted Data
+7) Create a guideline
