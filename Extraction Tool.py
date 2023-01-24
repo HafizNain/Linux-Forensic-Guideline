@@ -3,6 +3,7 @@
 #####################################################################
 
 import os
+import shutil
 import tkinter as tk
 from tkinter import filedialog
 
@@ -57,7 +58,17 @@ These are some of the artifacts that can be extracted instantly!
         case "11":
             getWebFolder()
         case "12":
-            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
+            getInfo()
+            getHistory()
+            getUser()
+            getTrash()
+            deletedData()
+            recentlyUsed()
+            getThumbnail()
+            logs()
+            homeFolder()
+            getMozilla()
+            getWebFolder()
         case "0":
             quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
     
@@ -507,6 +518,8 @@ def getTrash():
     with open(path + "\info.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(info))
+
+    shutil.copytree(lastDirectory, path, dirs_exist_ok=True)
     
     print("\nFile Trash Bin extracted at: " + path)
     return
@@ -531,6 +544,8 @@ def deletedData():
     with open(path + "\lost+found.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(lostfound))
+
+    shutil.copytree(lostfoundFiles, path, dirs_exist_ok=True)
 
     print("\nFile Deleted Data extracted at: " + path)
     return
@@ -603,6 +618,8 @@ def getThumbnail():
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(fail))
 
+    shutil.copytree(lastDirectory, path, dirs_exist_ok=True)
+
     print("\nFile Thumbnails extracted at: " + path)
     return
 
@@ -639,6 +656,8 @@ def getWebFolder():
     with open(path + "\html.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(html))
+
+    shutil.copytree(htmlFiles, path, dirs_exist_ok=True)
 
     print("\nFile Web Folder extracted at: " + path)
     return
@@ -677,7 +696,6 @@ def getMozilla():
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(firefox))
 
-
     print("\nFile Mozilla Browser Artifact extracted at: " + path)
     return
 
@@ -688,6 +706,12 @@ def getMozilla():
 def homeFolder():
 
     newFolder = "Basic Home Folders"
+    desktopFolder = "Desktop"
+    docFolder = "Documents"
+    downloadFolder = "Downloads"
+    musicFolder = "Music"
+    picFolder = "Pictures"
+    vidFolder = "Videos"
     homeDirectory = "home"
     desktopDirectory = "Desktop"
     docDirectory = "Documents"
@@ -775,6 +799,37 @@ def homeFolder():
     with open(path + "\Videos.txt", "w") as output:
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(vid))
+
+
+    newPath = path
+    newPath = os.path.join(path,desktopFolder)
+    os.mkdir(newPath)
+    shutil.copytree(desktopFiles, newPath, dirs_exist_ok=True)
+
+    newPath = path
+    newPath = os.path.join(path,docFolder)
+    os.mkdir(newPath)
+    shutil.copytree(docFiles, newPath, dirs_exist_ok=True)
+
+    newPath = path
+    newPath = os.path.join(path,downloadFolder)
+    os.mkdir(newPath)
+    shutil.copytree(downloadFiles, newPath, dirs_exist_ok=True)
+
+    newPath = path
+    newPath = os.path.join(path,musicFolder)
+    os.mkdir(newPath)
+    shutil.copytree(musicFiles, newPath, dirs_exist_ok=True)
+
+    newPath = path
+    newPath = os.path.join(path,picFolder)
+    os.mkdir(newPath)
+    shutil.copytree(picFiles, newPath, dirs_exist_ok=True)
+
+    newPath = path
+    newPath = os.path.join(path,vidFolder)
+    os.mkdir(newPath)
+    shutil.copytree(vidFiles, newPath, dirs_exist_ok=True)
 
     print("\nFile Basic Home Folders extracted at: " + path)        
     return

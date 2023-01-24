@@ -16,10 +16,10 @@ List of Artifacts:
 
 Future Work:
 
-1) Convert script into .exe file
-2) Extract the actual file, not converted into txt file
-3) Graphical User Interface using tkinter
-4) Better Error Handling
-5) Better Searching Method (Keyword & Time)
-6) Showcase Deleted Data
-7) Create a guideline
+1) Convert script into .exe file *
+2) Better Searching Method (Keyword & Time) *
+3) Showcase Deleted Data *
+4) Create a guideline *
+5) Better Error Handling
+6) Graphical User Interface using tkinter
+
