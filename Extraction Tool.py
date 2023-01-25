@@ -4,75 +4,9 @@
 
 import os
 import shutil
-import tkinter as tk
+import customtkinter
+from tkinter import messagebox
 from tkinter import filedialog
-
-#####################################################################
-# Get Choice
-#####################################################################
-
-def getchoice():
-
-    menu = """
-These are some of the artifacts that can be extracted instantly!
-
-1) OS Information
-2) Process Execution
-3) Account and Group
-4) Trash Bin
-5) Deleted Data
-6) Recently Used Application
-7) Thumbnails
-8) Important Logs
-9) Basic Home Folders
-10) Mozilla Browser Artifacts Path
-11) Web Folder
-12) All in one
-0) Exit
-"""
-    print(menu)
-
-    choice = input("Please enter your choice: ")
-
-    match choice:
-        case "1":
-            getInfo()
-        case "2":
-            getHistory()
-        case "3":
-            getUser()
-        case "4":
-            getTrash()
-        case "5":
-            deletedData()
-        case "6":
-            recentlyUsed()
-        case "7":
-            getThumbnail()
-        case "8":
-            logs()
-        case "9":
-            homeFolder()
-        case "10":
-            getMozilla()
-        case "11":
-            getWebFolder()
-        case "12":
-            getInfo()
-            getHistory()
-            getUser()
-            getTrash()
-            deletedData()
-            recentlyUsed()
-            getThumbnail()
-            logs()
-            homeFolder()
-            getMozilla()
-            getWebFolder()
-        case "0":
-            quit("\nThank you for using Linux Artifacts Extraction Tool!\n")
-    
-    return choice
 
 #####################################################################
 # Get Bash History
@@ -114,7 +48,7 @@ def getHistory():
             for line in input:
                 output.write(line)
 
-    print("\nFile Process Execution extracted at: " + path)
+    messagebox.showinfo("Info", "File Process Execution extracted at: " + path) 
 
     return
 
@@ -227,7 +161,7 @@ def getInfo():
             for line in input:
                 output.write(line)
 
-    print("\nFile OS Information extracted at: " + path)        
+    messagebox.showinfo("Info", "File OS Information extracted at: " + path)        
               
     return
 
@@ -303,7 +237,7 @@ def getUser():
             for line in input:
                 output.write(line)
 
-    print("\nFile User and Group extracted at: " + path)
+    messagebox.showinfo("Info", "File User and Group extracted at: " + path)
     return
 
 #####################################################################
@@ -358,7 +292,7 @@ def recentlyUsed():
             for line in input:
                 output.write(line)
 
-    print("\nFile Recently Used Application extracted at: " + path)
+    messagebox.showinfo("Info", "File Recently Used Application extracted at: " + path)
 
     return
 #####################################################################
@@ -444,7 +378,7 @@ def logs():
             for line in input:
                 output.write(line)
 
-    print("\nFile Important Logs extracted at: " + path)
+    messagebox.showinfo("Info", "File Important Logs extracted at: " + path)
     return
 
 #####################################################################
@@ -521,7 +455,7 @@ def getTrash():
 
     shutil.copytree(lastDirectory, path, dirs_exist_ok=True)
     
-    print("\nFile Trash Bin extracted at: " + path)
+    messagebox.showinfo("Info", "File Trash Bin extracted at: " + path)
     return
 
 #####################################################################
@@ -547,7 +481,7 @@ def deletedData():
 
     shutil.copytree(lostfoundFiles, path, dirs_exist_ok=True)
 
-    print("\nFile Deleted Data extracted at: " + path)
+    messagebox.showinfo("Info", "File Deleted Data extracted at: " + path)
     return
 
 #####################################################################
@@ -620,7 +554,7 @@ def getThumbnail():
 
     shutil.copytree(lastDirectory, path, dirs_exist_ok=True)
 
-    print("\nFile Thumbnails extracted at: " + path)
+    messagebox.showinfo("Info", "File Thumbnails extracted at: " + path)
     return
 
 #####################################################################
@@ -659,7 +593,7 @@ def getWebFolder():
 
     shutil.copytree(htmlFiles, path, dirs_exist_ok=True)
 
-    print("\nFile Web Folder extracted at: " + path)
+    messagebox.showinfo("Info", "File Web Folder extracted at: " + path)
     return
 
 #####################################################################
@@ -696,7 +630,7 @@ def getMozilla():
         output.write("Extracted from mount point: " + rootDirectory + "\n\n")
         output.write('\n'.join(firefox))
 
-    print("\nFile Mozilla Browser Artifact extracted at: " + path)
+    messagebox.showinfo("Info", "File Mozilla Browser Artifact extracted at: " + path)
     return
 
 #####################################################################
@@ -830,35 +764,125 @@ def homeFolder():
     newPath = os.path.join(path,vidFolder)
     os.mkdir(newPath)
     shutil.copytree(vidFiles, newPath, dirs_exist_ok=True)
-
-    print("\nFile Basic Home Folders extracted at: " + path)        
+ 
+    messagebox.showinfo("Info", "File Basic Home Folders extracted at: " + path)      
     return
 
 #####################################################################
-# Main Program
+# Get Directory
 #####################################################################
 
-print("\nWelcome! Thank you for using Linux Artifacts Extraction Tool!\n")
-print("\nPlease enter the location path for the mounted image: \n")
+def getDirectory():
 
-root = tk.Tk()
-root.withdraw()
+    global currentWorkingDirectory
+    global rootDirectory
+    global mainFolder
 
-folderName = "Linux Extraction Tool Acquisition Result"
+    folderName = "Linux Extraction Tool Acquisition Result"
+    currentWorkingDirectory_global = os.getcwd()
+    rootDirectory_global = filedialog.askdirectory()
 
-currentWorkingDirectory = os.getcwd()
-rootDirectory = filedialog.askdirectory()
+    mainFolder_global = os.path.join(currentWorkingDirectory_global,folderName)
+    os.mkdir(mainFolder_global)
 
-mainFolder = os.path.join(currentWorkingDirectory,folderName)
-os.mkdir(mainFolder)
+    if (rootDirectory_global == ""):
+        exit()
 
-if (rootDirectory == ""):
-    quit("Thank you for using Linux Artifacts Extraction Tool!")
+    currentWorkingDirectory = currentWorkingDirectory_global
+    rootDirectory = rootDirectory_global
+    mainFolder = mainFolder_global
 
-choice = getchoice()
+    return menu()
 
-while(choice != 0):
-    getchoice()
+#####################################################################
+# Main Menu
+#####################################################################
+
+def menu():
+
+    frame.pack_forget()
+
+    main_frame = customtkinter.CTkFrame(master=root)
+    main_frame.pack(pady = 20, padx = 60, fill = "both", expand = True)
+
+    label = customtkinter.CTkLabel(master = main_frame, text="Linux Main Menu")
+    label.pack(pady = 12, padx = 10)
+
+    osButton = customtkinter.CTkButton(master = main_frame, text = "OS Information", command = getInfo)
+    osButton.pack(pady = 12, padx = 10)
+
+    processButton = customtkinter.CTkButton(master = main_frame, text = "Process Execution", command = getHistory)
+    processButton.pack(pady = 12, padx = 10)
+
+    accButton = customtkinter.CTkButton(master = main_frame, text = "Account and Group", command = getUser)
+    accButton.pack(pady = 12, padx = 10)
+
+    trashButton = customtkinter.CTkButton(master = main_frame, text = "Trash Bin", command = getTrash)
+    trashButton.pack(pady = 12, padx = 10)
+
+    delButton = customtkinter.CTkButton(master = main_frame, text = "Deleted Data", command = deletedData)
+    delButton.pack(pady = 12, padx = 10)
+
+    recButton = customtkinter.CTkButton(master = main_frame, text = "Recently Used Application", command = recentlyUsed)
+    recButton.pack(pady = 12, padx = 10)
+
+    thumbButton = customtkinter.CTkButton(master = main_frame, text = "Thumbnails", command = getThumbnail)
+    thumbButton.pack(pady = 12, padx = 10)
+
+    logButton = customtkinter.CTkButton(master = main_frame, text = "Important Logs", command = logs)
+    logButton.pack(pady = 12, padx = 10)
+
+    homeButton = customtkinter.CTkButton(master = main_frame, text = "Basic Home Folders", command = homeFolder)
+    homeButton.pack(pady = 12, padx = 10)
+
+    mozButton = customtkinter.CTkButton(master = main_frame, text = "Mozilla Browser Artifacts", command = getMozilla)
+    mozButton.pack(pady = 12, padx = 10)
+
+    webButton = customtkinter.CTkButton(master = main_frame, text = "Web Folder", command = getWebFolder)
+    webButton.pack(pady = 12, padx = 10)
+
+    exitButton = customtkinter.CTkButton(master = main_frame, text = "Exit", command = exit)
+    exitButton.pack(pady = 12, padx = 10)
+
+    root.mainloop()
+
+    return
+
+#####################################################################
+# Exit Function
+#####################################################################
+
+def exit():
+
+    messagebox.showinfo("Info", "Thank you for using Linux Extraction Tool!") 
+    root.destroy()
+
+    return
+
+#####################################################################
+# Startup
+#####################################################################
+
+customtkinter.set_appearance_mode("dark")
+customtkinter.set_default_color_theme("dark-blue")
+
+root = customtkinter.CTk()
+root.title("Linux Artifacts Extraction Tool")
+root.geometry("1000x800")
+
+frame = customtkinter.CTkFrame(master=root)
+frame.pack(pady = 20, padx = 60, fill = "both", expand = True)
+
+label = customtkinter.CTkLabel(master = frame, text="Welcome! Thank you for using Linux Artifacts Extraction Tool!")
+label.pack(pady = 12, padx = 10)
+
+label = customtkinter.CTkLabel(master = frame, text="Please enter the location path for the mounted image:")
+label.pack(pady = 12, padx = 10)
+
+button = customtkinter.CTkButton(master = frame, text = "Choose Directory", command = getDirectory)
+button.pack()
+
+root.mainloop()
 
 #####################################################################
 # END

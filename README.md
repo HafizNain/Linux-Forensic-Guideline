@@ -21,5 +21,4 @@ Future Work:
 3) Showcase Deleted Data *
 4) Create a guideline *
 5) Better Error Handling
-6) Graphical User Interface using tkinter
 
