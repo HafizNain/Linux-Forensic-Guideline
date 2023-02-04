@@ -7,6 +7,7 @@ import shutil
 import customtkinter
 from tkinter import messagebox
 from tkinter import filedialog
+from datetime import datetime
 
 #####################################################################
 # Get Bash History
@@ -19,7 +20,12 @@ def getHistory():
     directoryToSearch = "home"
 
     path = os.path.join(mainFolder,newFolder)
-    os.mkdir(path)
+
+    if os.path.exists(path):
+        messagebox.showinfo("Info", "Folder already exists at: " + path)
+        return
+    else: 
+        os.mkdir(path)
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(directoryToSearch in dirs):
@@ -67,7 +73,12 @@ def getInfo():
     timeToSearch = "localtime"
 
     path = os.path.join(mainFolder,newFolder)
-    os.mkdir(path)
+
+    if os.path.exists(path):
+        messagebox.showinfo("Info", "Folder already exists at: " + path)
+        return
+    else: 
+        os.mkdir(path)
 
     # os-release
 
@@ -177,7 +188,12 @@ def getUser():
     groupToSearch = "group"
 
     path = os.path.join(mainFolder,newFolder)
-    os.mkdir(path)
+    
+    if os.path.exists(path):
+        messagebox.showinfo("Info", "Folder already exists at: " + path)
+        return
+    else: 
+        os.mkdir(path)
 
     # Users
 
@@ -253,7 +269,12 @@ def recentlyUsed():
     recentToSearch = "recently-used.xbel"
 
     path = os.path.join(mainFolder,newFolder)
-    os.mkdir(path)
+    
+    if os.path.exists(path):
+        messagebox.showinfo("Info", "Folder already exists at: " + path)
+        return
+    else: 
+        os.mkdir(path)
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(homeDirectory in dirs):
@@ -308,7 +329,12 @@ def logs():
     sysToSearch = "syslog"
     
     path = os.path.join(mainFolder,newFolder)
-    os.mkdir(path)
+    
+    if os.path.exists(path):
+        messagebox.showinfo("Info", "Folder already exists at: " + path)
+        return
+    else: 
+        os.mkdir(path)
 
     # auth.log
 
@@ -397,7 +423,12 @@ def getTrash():
     infoFolder = "info"
 
     path = os.path.join(mainFolder,newFolder)
-    os.mkdir(path)
+    
+    if os.path.exists(path):
+        messagebox.showinfo("Info", "Folder already exists at: " + path)
+        return
+    else: 
+        os.mkdir(path)
 
 
     for relPath,dirs,files in os.walk(rootDirectory):
@@ -466,8 +497,14 @@ def deletedData():
 
     newFolder = "Deleted Data"
     lostFoundDirectory = "lost+found"
+
     path = os.path.join(mainFolder,newFolder)
-    os.mkdir(path)
+    
+    if os.path.exists(path):
+        messagebox.showinfo("Info", "Folder already exists at: " + path)
+        return
+    else: 
+        os.mkdir(path)
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(lostFoundDirectory in dirs):
@@ -490,7 +527,7 @@ def deletedData():
 
 def getThumbnail():
 
-    newFolder = "Thumbails"
+    newFolder = "Thumbnails"
     homeDirectory = "home"
     cacheDirectory = ".cache"
     thumbDirectory = "thumbnails"
@@ -499,7 +536,12 @@ def getThumbnail():
     normalFolder = "normal"
 
     path = os.path.join(mainFolder,newFolder)
-    os.mkdir(path)
+    
+    if os.path.exists(path):
+        messagebox.showinfo("Info", "Folder already exists at: " + path)
+        return
+    else: 
+        os.mkdir(path)
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(homeDirectory in dirs):
@@ -569,7 +611,12 @@ def getWebFolder():
     htmlDirectory = "html"
 
     path = os.path.join(mainFolder,newFolder)
-    os.mkdir(path)
+    
+    if os.path.exists(path):
+        messagebox.showinfo("Info", "Folder already exists at: " + path)
+        return
+    else: 
+        os.mkdir(path)
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(varDirectory in dirs):
@@ -608,7 +655,12 @@ def getMozilla():
     firefoxDirectory = "firefox"
 
     path = os.path.join(mainFolder,newFolder)
-    os.mkdir(path)
+    
+    if os.path.exists(path):
+        messagebox.showinfo("Info", "Folder already exists at: " + path)
+        return
+    else: 
+        os.mkdir(path)
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(homeDirectory in dirs):
@@ -655,7 +707,12 @@ def homeFolder():
     vidDirectory = "Videos"
 
     path = os.path.join(mainFolder,newFolder)
-    os.mkdir(path)
+    
+    if os.path.exists(path):
+        messagebox.showinfo("Info", "Folder already exists at: " + path)
+        return
+    else: 
+        os.mkdir(path)
 
     for relPath,dirs,files in os.walk(rootDirectory):
         if(homeDirectory in dirs):
@@ -778,11 +835,15 @@ def getDirectory():
     global rootDirectory
     global mainFolder
 
-    folderName = "Linux Extraction Tool Acquisition Result"
     currentWorkingDirectory_global = os.getcwd()
     rootDirectory_global = filedialog.askdirectory()
 
-    mainFolder_global = os.path.join(currentWorkingDirectory_global,folderName)
+    dateName = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+    folderName = "Linux Extraction Tool Acquisition Result"
+
+    combinedName = os.path.join(currentWorkingDirectory_global,dateName)
+    os.mkdir(combinedName)
+    mainFolder_global = os.path.join(combinedName,folderName)
     os.mkdir(mainFolder_global)
 
     if (rootDirectory_global == ""):
@@ -799,54 +860,39 @@ def getDirectory():
 #####################################################################
 
 def menu():
-
     frame.pack_forget()
 
     main_frame = customtkinter.CTkFrame(master=root)
-    main_frame.pack(pady = 20, padx = 60, fill = "both", expand = True)
+    main_frame.pack(pady=20, padx=60, fill="both", expand=True)
 
-    label = customtkinter.CTkLabel(master = main_frame, text="Linux Main Menu")
-    label.pack(pady = 12, padx = 10)
+    label = customtkinter.CTkLabel(master=main_frame, text="Main Menu")
+    label.pack(pady=12, padx=10)
 
-    osButton = customtkinter.CTkButton(master = main_frame, text = "OS Information", command = getInfo)
-    osButton.pack(pady = 12, padx = 10)
+    button_frame = customtkinter.CTkFrame(master=main_frame)
+    button_frame.pack(pady=12, padx=10)
 
-    processButton = customtkinter.CTkButton(master = main_frame, text = "Process Execution", command = getHistory)
-    processButton.pack(pady = 12, padx = 10)
+    buttons = [
+        customtkinter.CTkButton(master=button_frame, text="OS Information", command=getInfo),
+        customtkinter.CTkButton(master=button_frame, text="Process Execution", command=getHistory),
+        customtkinter.CTkButton(master=button_frame, text="Account and Group", command=getUser),
+        customtkinter.CTkButton(master=button_frame, text="Trash Bin", command=getTrash),
+        customtkinter.CTkButton(master=button_frame, text="Deleted Data", command=deletedData),
+        customtkinter.CTkButton(master=button_frame, text="Recently Used Application", command=recentlyUsed),
+        customtkinter.CTkButton(master=button_frame, text="Thumbnails", command=getThumbnail),
+        customtkinter.CTkButton(master=button_frame, text="Important Logs", command=logs),
+        customtkinter.CTkButton(master=button_frame, text="Basic Home Folders", command=homeFolder),
+        customtkinter.CTkButton(master=button_frame, text="Mozilla Browser Artifacts", command=getMozilla),
+        customtkinter.CTkButton(master=button_frame, text="Web Folder", command=getWebFolder),
+        customtkinter.CTkButton(master=button_frame, text="Exit", command=exit),
+    ]
 
-    accButton = customtkinter.CTkButton(master = main_frame, text = "Account and Group", command = getUser)
-    accButton.pack(pady = 12, padx = 10)
-
-    trashButton = customtkinter.CTkButton(master = main_frame, text = "Trash Bin", command = getTrash)
-    trashButton.pack(pady = 12, padx = 10)
-
-    delButton = customtkinter.CTkButton(master = main_frame, text = "Deleted Data", command = deletedData)
-    delButton.pack(pady = 12, padx = 10)
-
-    recButton = customtkinter.CTkButton(master = main_frame, text = "Recently Used Application", command = recentlyUsed)
-    recButton.pack(pady = 12, padx = 10)
-
-    thumbButton = customtkinter.CTkButton(master = main_frame, text = "Thumbnails", command = getThumbnail)
-    thumbButton.pack(pady = 12, padx = 10)
-
-    logButton = customtkinter.CTkButton(master = main_frame, text = "Important Logs", command = logs)
-    logButton.pack(pady = 12, padx = 10)
-
-    homeButton = customtkinter.CTkButton(master = main_frame, text = "Basic Home Folders", command = homeFolder)
-    homeButton.pack(pady = 12, padx = 10)
-
-    mozButton = customtkinter.CTkButton(master = main_frame, text = "Mozilla Browser Artifacts", command = getMozilla)
-    mozButton.pack(pady = 12, padx = 10)
-
-    webButton = customtkinter.CTkButton(master = main_frame, text = "Web Folder", command = getWebFolder)
-    webButton.pack(pady = 12, padx = 10)
-
-    exitButton = customtkinter.CTkButton(master = main_frame, text = "Exit", command = exit)
-    exitButton.pack(pady = 12, padx = 10)
+    for i, button in enumerate(buttons):
+        button.grid(row=i // 2, column=i % 2, padx=10, pady=20)
 
     root.mainloop()
 
     return
+
 
 #####################################################################
 # Exit Function
@@ -868,19 +914,28 @@ customtkinter.set_default_color_theme("dark-blue")
 
 root = customtkinter.CTk()
 root.title("Linux Artifacts Extraction Tool")
-root.geometry("1000x800")
+root.geometry("800x550")
 
 frame = customtkinter.CTkFrame(master=root)
-frame.pack(pady = 20, padx = 60, fill = "both", expand = True)
+frame.pack(pady=20, padx=60, fill="both", expand=True)
 
-label = customtkinter.CTkLabel(master = frame, text="Welcome! Thank you for using Linux Artifacts Extraction Tool!")
-label.pack(pady = 12, padx = 10)
+label = customtkinter.CTkLabel(master=frame, text="Linux Artifacts Extraction Tool", font=("Helvetica", 16))
+label.pack(pady=12, padx=10, anchor="center")
 
-label = customtkinter.CTkLabel(master = frame, text="Please enter the location path for the mounted image:")
-label.pack(pady = 12, padx = 10)
+center_frame = customtkinter.CTkFrame(master=root)
+center_frame.place(relx=0.5, rely=0.5, anchor="center")
 
-button = customtkinter.CTkButton(master = frame, text = "Choose Directory", command = getDirectory)
-button.pack()
+label = customtkinter.CTkLabel(master=center_frame, text="Please enter the location path for the mounted image:", font=("Helvetica", 16))
+label.pack(pady=12, padx=10, anchor="center")
+
+button_frame = customtkinter.CTkFrame(master=center_frame)
+button_frame.pack(pady=12, padx=10, anchor="center")
+
+path_label = customtkinter.CTkLabel(master=button_frame, text=" No directory selected", font=("Helvetica", 16))
+path_label.pack(side="left")
+
+button = customtkinter.CTkButton(master=button_frame, text="Choose Directory", command=getDirectory, font=("Helvetica", 16))
+button.pack(side="left", padx=10)
 
 root.mainloop()
 

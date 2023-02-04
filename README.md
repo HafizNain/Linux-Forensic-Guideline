@@ -20,5 +20,4 @@ Future Work:
 2) Better Searching Method (Keyword & Time) *
 3) Showcase Deleted Data *
 4) Create a guideline *
-5) Better Error Handling
 
