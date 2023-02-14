@@ -16,8 +16,9 @@ List of Artifacts:
 
 Future Work:
 
-1) Convert script into .exe file *
-2) Better Searching Method (Keyword & Time) *
-3) Showcase Deleted Data *
-4) Create a guideline *
+1) Convert script into .exe file 
+2) Better Searching Method (Keyword & Time) 
+3) Showcase Deleted Data 
+4) Exit button below on right side
+5) Report Generation (Html or .txt)
 

@@ -914,12 +914,15 @@ customtkinter.set_default_color_theme("dark-blue")
 
 root = customtkinter.CTk()
 root.title("Linux Artifacts Extraction Tool")
-root.geometry("800x550")
+root.geometry("900x550")
 
 frame = customtkinter.CTkFrame(master=root)
 frame.pack(pady=20, padx=60, fill="both", expand=True)
 
-label = customtkinter.CTkLabel(master=frame, text="Linux Artifacts Extraction Tool", font=("Helvetica", 16))
+label = customtkinter.CTkLabel(master=frame, text="Linux Artifacts Extraction Tool", font=("Helvetica", 24))
+label.pack(pady=12, padx=10, anchor="center")
+
+label = customtkinter.CTkLabel(master=frame, text="Discover the power of efficient forensic investigation with our Linux Forensic Analysis tool", font=("Helvetica", 16))
 label.pack(pady=12, padx=10, anchor="center")
 
 center_frame = customtkinter.CTkFrame(master=root)
