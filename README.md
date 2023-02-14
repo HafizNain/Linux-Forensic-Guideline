@@ -17,6 +17,5 @@ List of Artifacts:
 Future Work:
 
 1) Convert script into .exe file 
-2) Showcase Deleted Data 
-3) Report Generation (Html or .txt)
+2) Extract unallocated data OR Deleted Files
 

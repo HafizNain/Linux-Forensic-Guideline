@@ -9,6 +9,8 @@ from tkinter import messagebox
 from tkinter import filedialog
 from datetime import datetime
 
+messages = []
+
 #####################################################################
 # Get Bash History
 #####################################################################
@@ -55,6 +57,7 @@ def getHistory():
                 output.write(line)
 
     messagebox.showinfo("Info", "File Process Execution extracted at: " + path) 
+    messages.append("File Process Execution extracted at: " + path)
 
     return
 
@@ -172,7 +175,8 @@ def getInfo():
             for line in input:
                 output.write(line)
 
-    messagebox.showinfo("Info", "File OS Information extracted at: " + path)        
+    messagebox.showinfo("Info", "File OS Information extracted at: " + path)   
+    messages.append("File OS Information extracted at: " + path)     
               
     return
 
@@ -254,6 +258,7 @@ def getUser():
                 output.write(line)
 
     messagebox.showinfo("Info", "File User and Group extracted at: " + path)
+    messages.append("File User and Group extracted at: " + path)  
     return
 
 #####################################################################
@@ -314,6 +319,7 @@ def recentlyUsed():
                 output.write(line)
 
     messagebox.showinfo("Info", "File Recently Used Application extracted at: " + path)
+    messages.append("File Recently Used Application extracted at: " + path)  
 
     return
 #####################################################################
@@ -405,6 +411,7 @@ def logs():
                 output.write(line)
 
     messagebox.showinfo("Info", "File Important Logs extracted at: " + path)
+    messages.append("File Important Logs extracted at: " + path)
     return
 
 #####################################################################
@@ -487,6 +494,7 @@ def getTrash():
     shutil.copytree(lastDirectory, path, dirs_exist_ok=True)
     
     messagebox.showinfo("Info", "File Trash Bin extracted at: " + path)
+    messages.append("File Trash Bin extracted at: " + path)
     return
 
 #####################################################################
@@ -494,6 +502,11 @@ def getTrash():
 #####################################################################
 
 def deletedData():
+
+
+    # newPath = unallocatedDirectory= filedialog.askdirectory()
+
+    # make way for unallocated space
 
     newFolder = "Deleted Data"
     lostFoundDirectory = "lost+found"
@@ -519,6 +532,7 @@ def deletedData():
     shutil.copytree(lostfoundFiles, path, dirs_exist_ok=True)
 
     messagebox.showinfo("Info", "File Deleted Data extracted at: " + path)
+    messages.append("File Deleted Data extracted at: " + path)
     return
 
 #####################################################################
@@ -597,6 +611,7 @@ def getThumbnail():
     shutil.copytree(lastDirectory, path, dirs_exist_ok=True)
 
     messagebox.showinfo("Info", "File Thumbnails extracted at: " + path)
+    messages.append("File Thumbnails extracted at: " + path)
     return
 
 #####################################################################
@@ -641,6 +656,7 @@ def getWebFolder():
     shutil.copytree(htmlFiles, path, dirs_exist_ok=True)
 
     messagebox.showinfo("Info", "File Web Folder extracted at: " + path)
+    messages.append("File Web Folder extracted at: " + path)
     return
 
 #####################################################################
@@ -683,6 +699,7 @@ def getMozilla():
         output.write('\n'.join(firefox))
 
     messagebox.showinfo("Info", "File Mozilla Browser Artifact extracted at: " + path)
+    messages.append("File Mozilla Browser Artifact extracted at: " + path)
     return
 
 #####################################################################
@@ -822,7 +839,8 @@ def homeFolder():
     os.mkdir(newPath)
     shutil.copytree(vidFiles, newPath, dirs_exist_ok=True)
  
-    messagebox.showinfo("Info", "File Basic Home Folders extracted at: " + path)      
+    messagebox.showinfo("Info", "File Basic Home Folders extracted at: " + path)
+    messages.append("File Basic Home Folders extracted at: " + path)      
     return
 
 #####################################################################
@@ -834,14 +852,15 @@ def getDirectory():
     global currentWorkingDirectory
     global rootDirectory
     global mainFolder
+    global dateName
 
     currentWorkingDirectory_global = os.getcwd()
     rootDirectory_global = filedialog.askdirectory()
 
-    dateName = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
+    dateName_global = datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
     folderName = "Linux Extraction Tool Acquisition Result"
 
-    combinedName = os.path.join(currentWorkingDirectory_global,dateName)
+    combinedName = os.path.join(currentWorkingDirectory_global,dateName_global)
     os.mkdir(combinedName)
     mainFolder_global = os.path.join(combinedName,folderName)
     os.mkdir(mainFolder_global)
@@ -849,6 +868,7 @@ def getDirectory():
     if (rootDirectory_global == ""):
         exit()
 
+    dateName = dateName_global
     currentWorkingDirectory = currentWorkingDirectory_global
     rootDirectory = rootDirectory_global
     mainFolder = mainFolder_global
@@ -866,7 +886,10 @@ def menu():
     main_frame = customtkinter.CTkFrame(master=root)
     main_frame.pack(pady=20, padx=60, fill="both", expand=True)
 
-    label = customtkinter.CTkLabel(master=main_frame, text="Main Menu")
+    label = customtkinter.CTkLabel(master=main_frame, text="\n\nLinux Artifacts Extraction Tool", font=("Helvetica", 24))
+    label.pack(pady=12, padx=10)
+
+    label = customtkinter.CTkLabel(master=main_frame, text="Main Menu",font=("Helvetica", 24))
     label.pack(pady=12, padx=10)
 
     search_frame = customtkinter.CTkFrame(master=main_frame)
@@ -884,6 +907,10 @@ def menu():
     button_frame = customtkinter.CTkFrame(master=main_frame)
     button_frame.pack(pady=12, padx=10)
 
+    def invoke_all_buttons():
+        for button in buttons[:-1]:
+            button.invoke()
+
     buttons = [
         customtkinter.CTkButton(master=button_frame, text="OS Information", command=getInfo),
         customtkinter.CTkButton(master=button_frame, text="Process Execution", command=getHistory),
@@ -897,6 +924,9 @@ def menu():
         customtkinter.CTkButton(master=button_frame, text="Mozilla Browser Artifacts", command=getMozilla),
         customtkinter.CTkButton(master=button_frame, text="Web Folder", command=getWebFolder),
     ]
+
+    all_button = customtkinter.CTkButton(master=button_frame, text="Extract All", command=invoke_all_buttons)
+    buttons.append(all_button)
 
     for i, button in enumerate(buttons):
         button.grid(row=i // 2, column=i % 2, padx=10, pady=20)
@@ -938,14 +968,30 @@ def search(keyword):
     else:
         messagebox.showinfo("No matches", f"No files found containing the keyword '{keyword}'.")
 
+    return matching_files
+
 
 #####################################################################
 # Generate Report
 #####################################################################
 
 def generate_report():
-        # Replace this with your code for generating a report.
-        print("Generating report...")
+    
+    with open(mainFolder + "/report.txt", "w") as f:
+
+        f.write(f"Linux Extraction Tool Acquisition Report")
+        f.write(f"\n\nReport Generated on: " + dateName)
+        f.write(f"\nCurrent Working Directory: " + currentWorkingDirectory)
+        f.write(f"\nMounted Image Directory: " + rootDirectory)
+
+        f.write("\n\nMessages:\n\n")
+
+        for message in messages:
+            f.write(f"{message}\n")
+        
+        messagebox.showinfo("Info", "Report Generated at: " + mainFolder) 
+
+    return
 
 #####################################################################
 # Exit Function
@@ -972,7 +1018,7 @@ root.geometry("800x800")
 frame = customtkinter.CTkFrame(master=root)
 frame.pack(pady=20, padx=60, fill="both", expand=True)
 
-label = customtkinter.CTkLabel(master=frame, text="Linux Artifacts Extraction Tool", font=("Helvetica", 24))
+label = customtkinter.CTkLabel(master=frame, text="\n\n\nLinux Artifacts Extraction Tool", font=("Helvetica", 24))
 label.pack(pady=12, padx=10, anchor="center")
 
 label = customtkinter.CTkLabel(master=frame, text="Discover the power of efficient forensic investigation with our Linux Forensic Analysis tool", font=("Helvetica", 16))
@@ -994,6 +1040,7 @@ button = customtkinter.CTkButton(master=button_frame, text="Choose Directory", c
 button.pack(side="left", padx=10)
 
 root.mainloop()
+
 
 #####################################################################
 # END
