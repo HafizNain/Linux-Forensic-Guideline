@@ -860,6 +860,7 @@ def getDirectory():
 #####################################################################
 
 def menu():
+
     frame.pack_forget()
 
     main_frame = customtkinter.CTkFrame(master=root)
@@ -867,6 +868,18 @@ def menu():
 
     label = customtkinter.CTkLabel(master=main_frame, text="Main Menu")
     label.pack(pady=12, padx=10)
+
+    search_frame = customtkinter.CTkFrame(master=main_frame)
+    search_frame.pack(pady=12, padx=10)
+
+    search_label = customtkinter.CTkLabel(master=search_frame, text="Search for a keyword:")
+    search_label.pack(side="left")
+
+    keyword_entry = customtkinter.CTkEntry(master=search_frame, width=120)
+    keyword_entry.pack(side="left", padx=10)
+
+    search_button = customtkinter.CTkButton(master=search_frame, text="Search", command=lambda: search(keyword_entry.get()))
+    search_button.pack(side="left", padx=10)
 
     button_frame = customtkinter.CTkFrame(master=main_frame)
     button_frame.pack(pady=12, padx=10)
@@ -883,16 +896,56 @@ def menu():
         customtkinter.CTkButton(master=button_frame, text="Basic Home Folders", command=homeFolder),
         customtkinter.CTkButton(master=button_frame, text="Mozilla Browser Artifacts", command=getMozilla),
         customtkinter.CTkButton(master=button_frame, text="Web Folder", command=getWebFolder),
-        customtkinter.CTkButton(master=button_frame, text="Exit", command=exit),
     ]
 
     for i, button in enumerate(buttons):
         button.grid(row=i // 2, column=i % 2, padx=10, pady=20)
 
+    bottom_frame = customtkinter.CTkFrame(master=main_frame)
+    bottom_frame.pack(side="bottom", anchor="e", padx=10, pady=20)
+
+    report_button = customtkinter.CTkButton(master=bottom_frame, text="Generate Report", command=generate_report)
+    report_button.pack(side="left", padx=5, pady=20)
+
+    exit_button = customtkinter.CTkButton(master=bottom_frame, text="Exit", command=exit)
+    exit_button.pack(side="left", padx=5, pady=20)
+
     root.mainloop()
 
     return
 
+#####################################################################
+# Keyword Search
+#####################################################################
+
+def search(keyword):
+
+    matching_files = []
+
+    for root, dirs, files in os.walk(currentWorkingDirectory):
+        for file in files:
+            file_path = os.path.join(root, file)
+            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                contents = f.read()
+                if keyword in contents:
+                    matching_files.append(file_path)
+
+    if matching_files:
+        message = f"Keyword '{keyword}' found in the following files:\n\n"
+        for file_path in matching_files:
+            message += f"{file_path}\n\n"
+        messagebox.showinfo("Matching files", message)
+    else:
+        messagebox.showinfo("No matches", f"No files found containing the keyword '{keyword}'.")
+
+
+#####################################################################
+# Generate Report
+#####################################################################
+
+def generate_report():
+        # Replace this with your code for generating a report.
+        print("Generating report...")
 
 #####################################################################
 # Exit Function
@@ -914,7 +967,7 @@ customtkinter.set_default_color_theme("dark-blue")
 
 root = customtkinter.CTk()
 root.title("Linux Artifacts Extraction Tool")
-root.geometry("900x550")
+root.geometry("800x800")
 
 frame = customtkinter.CTkFrame(master=root)
 frame.pack(pady=20, padx=60, fill="both", expand=True)
