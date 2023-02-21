@@ -503,11 +503,6 @@ def getTrash():
 
 def deletedData():
 
-
-    # newPath = unallocatedDirectory= filedialog.askdirectory()
-
-    # make way for unallocated space
-
     newFolder = "Deleted Data"
     lostFoundDirectory = "lost+found"
 
